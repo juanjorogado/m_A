@@ -102,7 +102,19 @@
   border: 1px solid var(--border-color);
   overflow: hidden;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   box-shadow: var(--shadow);
+}
+
+.card-front {
+  transform: rotateY(0deg);
+  z-index: 2;
+  background-color: var(--card-front-bg);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background-color: var(--card-back-bg);
 }
 
 .card-face::before {
