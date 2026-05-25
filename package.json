@@ -2,7 +2,7 @@
   "name": "marcus-meditations-pwa",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://juanjorogado.github.io/m_A",
+  "homepage": ".",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
