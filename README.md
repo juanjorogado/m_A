@@ -6,7 +6,6 @@ This is a Progressive Web App (PWA) that displays a daily meditation from Marcus
 
 - Displays a daily meditation quote from Marcus Aurelius
 - Card flip animation to reveal explanation and context
-- Works offline after initial load
 - Can be installed on iPhone Home Screen via Safari
 
 ## How to Install on iPhone
@@ -61,16 +60,14 @@ This creates an optimized build in the `build` directory.
 - `src/` - React source code
   - `App.js` - Main application component
   - `index.js` - Entry point
-  - `components/` - Individual components (CardFront, CardBack, BackgroundTexture)
+  - `components/` - Componentes reutilizables
   - `data/` - Meditation data
-  - `styles.js` - CSS-in-JS styles (if applicable)
 - `package.json` - Project dependencies and scripts
 
 ## Notes
 
 - The app uses the device's current date to determine which meditation to display
-- The meditation data is currently hardcoded for 2026-05-25; more dates can be added to the `MEDITATIONS` array
-- The PWA uses a service worker to cache assets for offline use
+- The meditation data is currently seeded for specific dates; more dates can be added to the `MEDITATIONS` array
 - On iOS, the app will run in standalone mode when launched from the Home Screen (no Safari UI)
 
 ## License

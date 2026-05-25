@@ -9,6 +9,9 @@ export const MEDITATIONS = [
     quote:
       'TIENES PODER SOBRE TU MENTE, NO SOBRE LOS ACONTECIMIENTOS EXTERNOS. COMPRENDE ESTO Y ENCONTRARÁS LA FUERZA.',
     latin: 'Τὰ ἐφ’ ἡμῖν',
+    conceptTranslation: 'Lo que depende de nosotros',
+    author: 'Marco Aurelio',
+    era: 'Roma · 170 d. C.',
     source: 'Meditaciones · Libro VII · Meditación 180',
     explanation:
       'Marco Aurelio desarrolla aquí una de las ideas centrales del estoicismo: la diferencia entre aquello que depende de nosotros y aquello que pertenece al mundo exterior. La serenidad nace del dominio de la interpretación, no del control absoluto de la realidad.',
@@ -42,6 +45,9 @@ export const MEDITATIONS = [
     quote:
       'LA FELICIDAD DE TU VIDA DEPENDE DE LA CALIDAD DE TUS PENSAMIENTOS.',
     latin: 'De qua re cogitas',
+    conceptTranslation: 'Sobre aquello que piensas',
+    author: 'Marco Aurelio',
+    era: 'Roma · 170 d. C.',
     source: 'Meditaciones · Libro VII · Meditación 181',
     explanation:
       'Esta meditación subraya el estoicismo práctico: nuestra felicidad no depende de circunstancias externas sino de la calidad de nuestros juicios internos. Marco Aurelio nos recuerda que somos responsables de nuestros propios pensamientos y actitudes.',
@@ -56,7 +62,7 @@ export const MEDITATIONS = [
       {
         title: 'How to Think Like a Roman Emperor',
         author: 'Donald Robertson',
-        url: 'https://www.st Martinspress.com/9781250278533/how-to-think-like-a-roman-emperor/',
+        url: 'https://www.stmartins.com/9781250278533/how-to-think-like-a-roman-emperor/',
         type: 'secondary'
       }
     ]
@@ -69,6 +75,9 @@ export const MEDITATIONS = [
     quote:
       'TODO LO QUE OÍMOS ES UNA OPINIÓN, NO UN HECHO. TODO LO QUE VEMOS ES UNA PERSPECTIVA, NO LA VERDAD.',
     latin: 'Omnia opinio',
+    conceptTranslation: 'Todo es interpretación',
+    author: 'Marco Aurelio',
+    era: 'Roma · 170 d. C.',
     source: 'Meditaciones · Libro VIII · Meditación 6',
     explanation:
       'Esta meditación anticipa el constructivismo epistemológico moderno: Marco Aurelio reconoce que nuestras percepciones están filtradas por nuestras interpretaciones, lo que nos libera del dogmatismo y nos abre a la humildad intelectual.',
@@ -93,14 +102,16 @@ export const MEDITATIONS = [
 
 // Helper function to get meditation for a specific date
 export const getMeditationForDate = (date) => {
-  const dateKey = date.toISOString().slice(0, 10);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const dateKey = `${year}-${month}-${day}`;
   
   // First try to find exact match
   const exactMatch = MEDITATIONS.find(med => med.id === dateKey);
   if (exactMatch) return exactMatch;
   
   // If no exact match, find meditations for the same year
-  const year = date.getFullYear();
   const yearMeditations = MEDITATIONS.filter(med => 
     med.id.startsWith(`${year}-`)
   );
@@ -118,6 +129,3 @@ export const getMeditationForDate = (date) => {
   // Fallback to first meditation if no meditations for this year
   return MEDITATIONS[0];
 };
-
-// Export all meditations for reference
-export { MEDITATIONS };
