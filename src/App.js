@@ -1,62 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-
-const MEDITATIONS = [
-  {
-    id: '2026-05-25',
-    number: 180,
-    book: 'VII',
-    chapter: '—',
-    quote:
-      'TIENES PODER SOBRE TU MENTE, NO SOBRE LOS ACONTECIMIENTOS EXTERNOS. COMPRENDE ESTO Y ENCONTRARÁS LA FUERZA.',
-    latin: 'Τὰ ἐφ’ ἡμῖν',
-    source: 'Meditaciones · Libro VII · Meditación 180',
-    explanation:
-      'Marco Aurelio desarrolla aquí una de las ideas centrales del estoicismo: la diferencia entre aquello que depende de nosotros y aquello que pertenece al mundo exterior. La serenidad nace del dominio de la interpretación, no del control absoluto de la realidad.',
-    context:
-      'Escrita durante las campañas militares del emperador en el Danubio, esta reflexión aparece en un momento de enorme presión política y personal. La cita no es un ejercicio abstracto de filosofía, sino un mecanismo práctico de resistencia emocional.',
-  },
-];
-
-function getMeditationOfDay() {
-  const todayKey = new Date().toISOString().slice(0, 10);
-  return MEDITATIONS.find(m => m.id === todayKey) || MEDITATIONS[0];
-}
-
-function App() {
-  const meditation = getMeditationOfDay();
-  const [flipped, setFlipped] = useState(false);
-
-  return (
-    <div className="min-h-screen bg-[#F4F1EA] text-[#1D1B18] overflow-hidden relative font-serif">
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.03] bg-[radial-gradient(circle_at_center,_black_1px,_transparent_1px)] [background-size:22px_22px]" />
-
-      <main className="relative z-10 flex flex-col min-h-screen px-6 py-8 md:px-10 md:py-10">
-        <header className="flex items-center justify-between mb-10" />
-
-        <section className="flex-1 flex items-center justify-center">
-          <div
-            className="relative w-full max-w-[430px] h-[620px] cursor-pointer"
-            style={{ perspective: '2000px' }}
-            onClick={() => setFlipped(v => !v)}
-          >
-            <div
-              className="relative w-full h-full duration-700 [transform-style:preserve-3d]"
-              style={{
-                transform: flipped
-                  ? 'rotateY(180deg) scale(1.02)'
-                  : 'rotateY(0deg) scale(1.0)',
-              }}
-            >
-              <CardFront meditation={meditation} />
-              <CardBack meditation={meditation} />
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
-  );
-}
+import { getMeditationForDate } from './data/meditations';
 
 function CardFront({ meditation }) {
   return (
@@ -133,6 +77,43 @@ function CardBack({ meditation }) {
               </p>
             </div>
           </section>
+
+          {meditation.references && meditation.references.length > 0 && (
+            <section>
+              <h3 className="uppercase tracking-[0.22em] text-[11px] text-[#8B8378] mb-3">
+                Referencias y Fuentes
+              </h3>
+              <div className="space-y-4">
+                {meditation.references.map((ref, index) => (
+                  <div key={index} className="bg-white/30 rounded-xl p-4">
+                    <p className="font-semibold text-[#1D1B18] mb-2">
+                      {ref.title}
+                    </p>
+                    {ref.author && (
+                      <p className="text-[#7A7268] text-sm italic mb-2">
+                        por {ref.author}
+                      </p>
+                    )}
+                    {ref.url && (
+                      <a
+                        href={ref.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-[#8B8378] hover:text-[#1D1B18] transition-colors text-sm"
+                      >
+                        {ref.url}
+                      </a>
+                    )}
+                    {ref.type && (
+                      <p className="text-[#91897D] text-xs italic mt-1">
+                        Fuente {ref.type === 'primary' ? 'primaria' : 'secundaria'}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
         <div className="mt-auto pt-10 flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-[#8B8378]">
@@ -140,6 +121,41 @@ function CardBack({ meditation }) {
           <span>Desliza para archivo</span>
         </div>
       </div>
+    </div>
+  );
+}
+
+function App() {
+  const meditation = getMeditationForDate(new Date());
+  const [flipped, setFlipped] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-[#F4F1EA] text-[#1D1B18] overflow-hidden relative font-serif">
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.03] bg-[radial-gradient(circle_at_center,_black_1px,_transparent_1px)] [background-size:22px_22px]" />
+
+      <main className="relative z-10 flex flex-col min-h-screen px-6 py-8 md:px-10 md:py-10">
+        <header className="flex items-center justify-between mb-10" />
+
+        <section className="flex-1 flex items-center justify-center">
+          <div
+            className="relative w-full max-w-[430px] h-[620px] cursor-pointer"
+            style={{ perspective: '2000px' }}
+            onClick={() => setFlipped(v => !v)}
+          >
+            <div
+              className="relative w-full h-full duration-700 [transform-style:preserve-3d]"
+              style={{
+                transform: flipped
+                  ? 'rotateY(180deg) scale(1.02)'
+                  : 'rotateY(0deg) scale(1.0)',
+              }}
+            >
+              <CardFront meditation={meditation} />
+              <CardBack meditation={meditation} />
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
