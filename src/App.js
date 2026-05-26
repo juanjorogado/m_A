@@ -131,7 +131,7 @@ function App() {
   };
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${expanded ? 'expanded' : ''}`}>
       <div className="background-layer" aria-hidden="true" />
 
       <main className="app-frame">

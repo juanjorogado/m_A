@@ -32,6 +32,13 @@ body {
   background:
     radial-gradient(circle at top, rgba(255,255,255,0.42), transparent 34%),
     linear-gradient(180deg, rgba(0,0,0,0.015), transparent 28%);
+  transition: background 450ms ease;
+}
+
+.app-shell.expanded .background-layer {
+  background:
+    radial-gradient(circle at 22% 0%, rgba(0,0,0,0.33), transparent 44%),
+    linear-gradient(180deg, rgba(0,0,0,0.18), transparent 32%);
 }
 
 .app-frame {
@@ -174,8 +181,8 @@ body {
 
 .detail-section p {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.65;
+  font-size: 1.08rem;
+  line-height: 1.78;
 }
 
 .concept-title {
@@ -210,7 +217,7 @@ body {
 .reference-author {
   margin: 0.3rem 0 0;
   color: var(--text-soft);
-  font-size: 0.88rem;
+  font-size: 0.92rem;
 }
 
 @keyframes sheet-rise {
