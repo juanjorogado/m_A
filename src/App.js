@@ -1,117 +1,171 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { getMeditationForDate } from './data/meditations';
 
-function CardFront({ meditation }) {
+const SWIPE_THRESHOLD = 56;
+
+function SummaryCard({ meditation, expanded, onOpen }) {
   return (
-    <div className="card-face card-front">
-      <div className="card-content">
-        <div className="card-header">
-          <span>Imperium Internum</span>
+    <section className={`summary-card ${expanded ? 'expanded' : ''}`}>
+      <div
+        className="summary-card-hitbox"
+        onClick={expanded ? undefined : onOpen}
+        role={expanded ? undefined : 'button'}
+        tabIndex={expanded ? -1 : 0}
+        onKeyDown={(event) => {
+          if (!expanded && (event.key === 'Enter' || event.key === ' ')) {
+            event.preventDefault();
+            onOpen();
+          }
+        }}
+        aria-label={expanded ? undefined : 'Abrir meditacion'}
+      >
+        <div className="summary-meta">
+          <span>Marco Aurelio</span>
           <span>{meditation.era || 'Roma · 170 d. C.'}</span>
         </div>
 
-        <div className="card-body">
-          <blockquote className="card-quote">
-            “{meditation.quote}”
-          </blockquote>
+        <blockquote className="summary-quote">
+          “{meditation.quote}”
+        </blockquote>
 
-          <div className="card-footer">
-            <p className="card-author">{(meditation.author || 'Marco Aurelio').toUpperCase()}</p>
-            <p className="card-source">{meditation.source}</p>
-          </div>
+        <div className="summary-footer">
+          <p>{meditation.source}</p>
+          <p className="summary-hint">{expanded ? 'Desliza hacia abajo para cerrar' : 'Desliza hacia arriba'}</p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-function CardBack({ meditation }) {
+function DetailSection({ title, children }) {
   return (
-    <div className="card-face card-back">
-      <div className="card-back-content">
-        <div className="card-section">
-          <h3>Lectura Filosófica</h3>
-          <p>{meditation.explanation}</p>
-        </div>
+    <section className="detail-section">
+      <h2>{title}</h2>
+      <div>{children}</div>
+    </section>
+  );
+}
 
-        <div className="card-section">
-          <h3>Contexto Histórico</h3>
-          <p>{meditation.context}</p>
-        </div>
+function ReferencesList({ references }) {
+  if (!references || references.length === 0) {
+    return null;
+  }
 
-        <div className="card-section">
-          <h3>Concepto Griego Original</h3>
-          <div className="greek-concept">
-            <p className="greek-text">{meditation.latin}</p>
-            <p className="greek-translation">
-              “{meditation.conceptTranslation || 'Lo que depende de nosotros'}”. Una distinción esencial del estoicismo.
-            </p>
-          </div>
-        </div>
-
-        {meditation.references && meditation.references.length > 0 && (
-          <div className="references-section">
-            <h3>Referencias y Fuentes</h3>
-            {meditation.references.map((ref, index) => (
-              <div key={index} className="reference-item">
-                <p className="reference-title">{ref.title}</p>
-                {ref.author && (
-                  <p className="reference-author">por {ref.author}</p>
-                )}
-                {ref.url && (
-                  <a
-                    href={ref.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="reference-url"
-                  >
-                    {ref.url}
-                  </a>
-                )}
-                {ref.type && (
-                  <p className="reference-type">
-                    Fuente {ref.type === 'primary' ? 'primaria' : 'secundaria'}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className="card-footer-back">
-          <span>Contemplación diaria</span>
-          <span>Desliza para archivo</span>
-        </div>
+  return (
+    <section className="detail-section">
+      <h2>Referencias</h2>
+      <div className="references-list">
+        {references.map((reference, index) => (
+          <article key={index} className="reference-item">
+            {reference.url ? (
+              <a
+                href={reference.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="reference-title"
+              >
+                {reference.title}
+              </a>
+            ) : (
+              <p className="reference-title">{reference.title}</p>
+            )}
+            {reference.author && <p className="reference-author">por {reference.author}</p>}
+          </article>
+        ))}
       </div>
-    </div>
+    </section>
   );
 }
 
 function App() {
   const meditation = getMeditationForDate(new Date());
-  const [flipped, setFlipped] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const sheetScrollRef = useRef(null);
+  const touchStartYRef = useRef(null);
+  const touchStartScrollTopRef = useRef(0);
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setExpanded(false);
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  const openCard = () => setExpanded(true);
+  const closeCard = () => setExpanded(false);
+
+  const handleTouchStart = (event) => {
+    touchStartYRef.current = event.changedTouches[0].clientY;
+    touchStartScrollTopRef.current = sheetScrollRef.current ? sheetScrollRef.current.scrollTop : 0;
+  };
+
+  const handleTouchEnd = (event) => {
+    if (touchStartYRef.current === null) {
+      touchStartYRef.current = null;
+      touchStartScrollTopRef.current = 0;
+      return;
+    }
+
+    const touchEndY = event.changedTouches[0].clientY;
+    const deltaY = touchEndY - touchStartYRef.current;
+    const startedAtTop = touchStartScrollTopRef.current <= 0;
+
+    touchStartYRef.current = null;
+    touchStartScrollTopRef.current = 0;
+
+    if (expanded) {
+      if (startedAtTop && deltaY > SWIPE_THRESHOLD) {
+        closeCard();
+      }
+      return;
+    }
+
+    if (deltaY < -SWIPE_THRESHOLD) {
+      openCard();
+    }
+  };
 
   return (
-    <div className="app-container">
-      <div className="background-texture" aria-hidden="true" />
+    <div className={`app-shell ${expanded ? 'expanded' : ''}`}>
+      <div className="background-layer" aria-hidden="true" />
 
-      <main className="main-content">
-        <header className="header" />
-
-        <section className="card-container">
+      <main className="app-frame">
+        <div className={`sheet ${expanded ? 'expanded' : ''}`}>
           <div
-            className="card-wrapper"
-            onClick={() => setFlipped(v => !v)}
+            ref={sheetScrollRef}
+            className="sheet-scroll"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
-            <div
-              className={`card ${flipped ? 'flipped' : ''}`}
-            >
-              <CardFront meditation={meditation} />
-              <CardBack meditation={meditation} />
+            <SummaryCard
+              meditation={meditation}
+              expanded={expanded}
+              onOpen={openCard}
+            />
+
+            <div className={`detail-content ${expanded ? 'expanded' : ''}`}>
+              <DetailSection title="Lectura filosófica">
+                <p>{meditation.explanation}</p>
+              </DetailSection>
+
+              <DetailSection title="Contexto histórico">
+                <p>{meditation.context}</p>
+              </DetailSection>
+
+              <DetailSection title="Concepto original">
+                <p className="concept-title">{meditation.latin}</p>
+                <p>{meditation.conceptTranslation || 'Lo que depende de nosotros'}.</p>
+              </DetailSection>
+
+              <ReferencesList references={meditation.references} />
             </div>
           </div>
-        </section>
+        </div>
       </main>
     </div>
   );
