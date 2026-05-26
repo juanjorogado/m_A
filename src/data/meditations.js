@@ -3,9 +3,6 @@
 export const MEDITATIONS = [
   {
     id: '2026-05-25',
-    number: 180,
-    book: 'VII',
-    chapter: '—',
     quote:
       'TIENES PODER SOBRE TU MENTE, NO SOBRE LOS ACONTECIMIENTOS EXTERNOS. COMPRENDE ESTO Y ENCONTRARÁS LA FUERZA.',
     latin: 'Τὰ ἐφ’ ἡμῖν',
@@ -20,28 +17,22 @@ export const MEDITATIONS = [
     references: [
       {
         title: 'Meditations, Book VII, 180',
-        url: 'https://www.gutenberg.org/files/2680/2680-h/2680-h.htm#link2H_4_0007',
-        type: 'primary'
+        url: 'https://www.gutenberg.org/files/2680/2680-h/2680-h.htm#link2H_4_0007'
       },
       {
         title: 'The Inner Citadel: The Meditations of Marcus Aurelius',
         author: 'Pierre Hadot',
-        url: 'https://press.princeton.edu/books/hardcover/9780691020239/the-inner-citadel',
-        type: 'secondary'
+        url: 'https://press.princeton.edu/books/hardcover/9780691020239/the-inner-citadel'
       },
       {
         title: 'Stoicism and the Art of Happiness',
         author: 'Donald Robertson',
-        url: 'https://doi.org/10.1017/9781316226903',
-        type: 'secondary'
+        url: 'https://doi.org/10.1017/9781316226903'
       }
     ]
   },
   {
     id: '2026-05-26',
-    number: 181,
-    book: 'VII',
-    chapter: '—',
     quote:
       'LA FELICIDAD DE TU VIDA DEPENDE DE LA CALIDAD DE TUS PENSAMIENTOS.',
     latin: 'De qua re cogitas',
@@ -56,22 +47,17 @@ export const MEDITATIONS = [
     references: [
       {
         title: 'Meditations, Book VII, 181',
-        url: 'https://www.gutenberg.org/files/2680/2680-h/2680-h.htm#link2H_4_0007',
-        type: 'primary'
+        url: 'https://www.gutenberg.org/files/2680/2680-h/2680-h.htm#link2H_4_0007'
       },
       {
         title: 'How to Think Like a Roman Emperor',
         author: 'Donald Robertson',
-        url: 'https://www.stmartins.com/9781250278533/how-to-think-like-a-roman-emperor/',
-        type: 'secondary'
+        url: 'https://www.stmartins.com/9781250278533/how-to-think-like-a-roman-emperor/'
       }
     ]
   },
   {
     id: '2026-05-27',
-    number: 182,
-    book: 'VII',
-    chapter: '—',
     quote:
       'TODO LO QUE OÍMOS ES UNA OPINIÓN, NO UN HECHO. TODO LO QUE VEMOS ES UNA PERSPECTIVA, NO LA VERDAD.',
     latin: 'Omnia opinio',
@@ -86,14 +72,12 @@ export const MEDITATIONS = [
     references: [
       {
         title: 'Meditations, Book VIII, 6',
-        url: 'https://www.gutenberg.org/files/2680/2680-h/2680-h.htm#link2H_4_0008',
-        type: 'primary'
+        url: 'https://www.gutenberg.org/files/2680/2680-h/2680-h.htm#link2H_4_0008'
       },
       {
         title: 'Epictetus: A Stoic and Socratic Guide to Life',
         author: 'A.A. Long',
-        url: 'https://global.oup.com/academic/product/epictetus-9780198727611',
-        type: 'secondary'
+        url: 'https://global.oup.com/academic/product/epictetus-9780198727611'
       }
     ]
   }

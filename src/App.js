@@ -21,8 +21,8 @@ function SummaryCard({ meditation, expanded, onOpen }) {
         aria-label={expanded ? undefined : 'Abrir meditacion'}
       >
         <div className="summary-meta">
-          <span>Marco Aurelio</span>
-          <span>{meditation.era || 'Roma · 170 d. C.'}</span>
+          <span>{meditation.author || 'Marco Aurelio'}</span>
+          <span>{meditation.era || ''}</span>
         </div>
 
         <blockquote className="summary-quote">
@@ -131,7 +131,7 @@ function App() {
   };
 
   return (
-    <div className={`app-shell ${expanded ? 'expanded' : ''}`}>
+    <div className="app-shell">
       <div className="background-layer" aria-hidden="true" />
 
       <main className="app-frame">
