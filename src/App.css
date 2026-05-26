@@ -41,6 +41,47 @@ body {
     linear-gradient(180deg, rgba(0,0,0,0.18), transparent 32%);
 }
 
+.background-monogram {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+  font-size: clamp(7rem, 30vw, 18rem);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.06);
+  opacity: 0;
+  transform: translateY(1rem) scale(0.98);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14),
+    0 -1px 0 rgba(0, 0, 0, 0.08),
+    0 14px 32px rgba(0, 0, 0, 0.14);
+  transition: opacity 450ms ease, transform 450ms ease;
+  z-index: 1;
+}
+
+.background-monogram::after {
+  content: '';
+  position: absolute;
+  width: min(78vw, 44rem);
+  height: min(78vw, 44rem);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255,255,255,0.13), transparent 52%),
+    radial-gradient(circle at 65% 70%, rgba(0,0,0,0.08), transparent 58%),
+    repeating-linear-gradient(130deg, rgba(255,255,255,0.03) 0 2px, rgba(0,0,0,0.03) 2px 4px);
+  mix-blend-mode: soft-light;
+  opacity: 0.32;
+  filter: blur(0.4px);
+}
+
+.app-shell.expanded .background-monogram {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 .app-frame {
   position: relative;
   min-height: 100vh;
@@ -48,6 +89,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  z-index: 2;
 }
 
 .sheet {
