@@ -20,6 +20,8 @@ function SummaryCard({ meditation, expanded, onOpen }) {
         }}
         aria-label={expanded ? undefined : 'Abrir meditacion'}
       >
+        <div className="summary-handle" aria-hidden="true" />
+
         <div className="summary-meta">
           <span>{meditation.author || 'Marco Aurelio'}</span>
           <span>{meditation.era || ''}</span>
@@ -133,7 +135,7 @@ function App() {
   return (
     <div className={`app-shell ${expanded ? 'expanded' : ''}`}>
       <div className="background-layer" aria-hidden="true" />
-      <div className="background-monogram" aria-hidden="true">MA</div>
+      <div className="background-monogram" aria-hidden="true">M · A</div>
 
       <main className="app-frame">
         <div className={`sheet ${expanded ? 'expanded' : ''}`}>
