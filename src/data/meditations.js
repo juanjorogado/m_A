@@ -103,7 +103,7 @@ export const getMeditationForDate = (date) => {
   if (yearMeditations.length > 0) {
     // Calculate day of year (0-364)
     const startOfYear = new Date(year, 0, 0);
-    const dayOfYear = Math.floor((date - startOfYear) / (24 * 60 * 60 * 1000));
+    const dayOfYear = Math.round((date - startOfYear) / (24 * 60 * 60 * 1000));
     
     // Use modulo to cycle through available meditations for the year
     const index = dayOfYear % yearMeditations.length;
