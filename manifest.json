@@ -1,9 +1,22 @@
 {
   "short_name": "Meditaciones",
   "name": "Meditaciones de Marco Aurelio",
-  "icons": [],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#F4F1EA",
-  "background_color": "#F4F1EA"
+  "theme_color": "#d5d7dc",
+  "background_color": "#d5d7dc"
 }
