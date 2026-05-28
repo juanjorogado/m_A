@@ -1,8 +1,6 @@
 import React from 'react';
 
 function SummaryCard({ meditation, expanded, onOpen }) {
-  const source = meditation.source || '';
-
   return (
     <section className={`summary-card ${expanded ? 'expanded' : ''}`}>
       <div
