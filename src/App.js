@@ -10,6 +10,7 @@ const SWIPE_THRESHOLD = 56;
 function App() {
   const [meditation, setMeditation] = useState(() => getMeditationForDate(new Date()));
   const [expanded, setExpanded] = useState(false);
+  const [cardLoaded, setCardLoaded] = useState(false);
   const sheetScrollRef = useRef(null);
   const touchStartYRef = useRef(null);
   const touchStartScrollTopRef = useRef(0);
@@ -23,6 +24,10 @@ function App() {
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  useEffect(() => {
+    requestAnimationFrame(() => setCardLoaded(true));
   }, []);
 
   useEffect(() => {
@@ -90,7 +95,7 @@ function App() {
       <div className="background-monogram" aria-hidden="true">M · A</div>
 
       <main className="app-frame">
-        <div className={`sheet ${expanded ? 'expanded' : ''}`}>
+        <div className={`sheet ${expanded ? 'expanded' : ''} ${cardLoaded ? 'loaded' : ''}`}>
           <div
             ref={sheetScrollRef}
             className="sheet-scroll"
@@ -100,6 +105,7 @@ function App() {
             <SummaryCard
               meditation={meditation}
               expanded={expanded}
+              loaded={cardLoaded}
               onOpen={openCard}
             />
 
