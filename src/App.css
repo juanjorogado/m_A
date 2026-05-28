@@ -56,7 +56,7 @@ body {
   font-size: 36px;
   letter-spacing: 0.04em;
   font-weight: 300;
-  color: rgba(196, 200, 209, 0.8);
+  color: #394453;
   z-index: 5;
   transition:
     transform 950ms cubic-bezier(.22,1,.36,1),
@@ -124,7 +124,7 @@ body {
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  padding: 26px 26px 14px 26px;
+  padding: 36px 26px 14px 26px;
 }
 
 .sheet.expanded .sheet-scroll {
@@ -142,13 +142,14 @@ body {
 .summary-card {
   background: inherit;
   width: 100%;
-  padding: 0 0 8px;
+  padding: 10px 0 8px;
+  margin-top: 8px;
 }
 
 .summary-card-hitbox {
   display: block;
   width: 100%;
-  padding: 32px 0 22px;
+  padding: 38px 0 22px;
   cursor: pointer;
   outline: none;
 }
@@ -194,6 +195,23 @@ body {
 .summary-card .summary-meta,
 .summary-card .summary-footer {
   transition: opacity 400ms ease, transform 400ms ease;
+}
+
+.summary-info {
+  margin-top: 10px;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: 'Source Sans Pro', -apple-system, sans-serif;
+}
+
+.summary-info .summary-book,
+.summary-info .summary-number {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .detail-content {
