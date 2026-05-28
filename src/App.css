@@ -86,7 +86,7 @@ body {
   align-items: center;
   justify-content: flex-end;
   z-index: 10;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .sheet {
@@ -97,17 +97,29 @@ body {
   background: var(--bg-soft);
   border-radius: 18px;
   overflow: hidden;
+  transform: translateY(28px);
+  will-change: transform, height, box-shadow, background;
   transition:
-    height 950ms cubic-bezier(.22,1,.36,1),
-    border-radius 850ms ease,
-    transform 950ms cubic-bezier(.22,1,.36,1),
-    background 700ms ease;
+    transform 520ms cubic-bezier(.22,1,.36,1),
+    height 780ms cubic-bezier(.22,1,.36,1),
+    border-radius 780ms ease,
+    background 520ms ease,
+    box-shadow 520ms ease;
   box-shadow:
-    0 -10px 30px rgba(0,0,0,0.05),
-    0 2px 10px rgba(255,255,255,0.2) inset;
+    0 -16px 40px rgba(0,0,0,0.08),
+    0 2px 12px rgba(255,255,255,0.25) inset;
+}
+
+.sheet.expanded {
+  background: var(--bg-soft-expanded);
+  box-shadow:
+    0 0 0 rgba(0,0,0,0),
+    0 2px 12px rgba(255,255,255,0.18) inset;
 }
 
 .sheet-scroll {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
@@ -129,11 +141,21 @@ body {
 
 .summary-card {
   background: inherit;
+  width: 100%;
+  padding: 0 0 8px;
 }
 
 .summary-card-hitbox {
+  display: block;
+  width: 100%;
+  padding: 32px 0 22px;
   cursor: pointer;
   outline: none;
+}
+
+.summary-card-hitbox:focus-visible {
+  outline: 2px solid rgba(68, 70, 72, 0.8);
+  outline-offset: 4px;
 }
 
 .summary-meta {
@@ -166,7 +188,12 @@ body {
   color: #444648;
   font-family: 'Cinzel', 'Times New Roman', serif;
   font-size: 12px;
-  margin-top: 48px;
+  margin-top: 36px;
+}
+
+.summary-card .summary-meta,
+.summary-card .summary-footer {
+  transition: opacity 400ms ease, transform 400ms ease;
 }
 
 .detail-content {
