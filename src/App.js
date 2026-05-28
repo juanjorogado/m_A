@@ -1,88 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { getMeditationForDate } from './data/meditations';
+import SummaryCard from './components/SummaryCard';
+import DetailSection from './components/DetailSection';
+import ReferencesList from './components/ReferencesList';
 
 const SWIPE_THRESHOLD = 56;
 
-function SummaryCard({ meditation, expanded, onOpen }) {
-  return (
-    <section className={`summary-card ${expanded ? 'expanded' : ''}`}>
-      <div
-        className="summary-card-hitbox"
-        onClick={expanded ? undefined : onOpen}
-        role={expanded ? undefined : 'button'}
-        tabIndex={expanded ? -1 : 0}
-        onKeyDown={(event) => {
-          if (!expanded && (event.key === 'Enter' || event.key === ' ')) {
-            event.preventDefault();
-            onOpen();
-          }
-        }}
-        aria-label={expanded ? undefined : 'Abrir meditacion'}
-      >
-        <div className="summary-handle" aria-hidden="true" />
-
-        <div className="summary-meta">
-          <span>{meditation.author || 'Marco Aurelio'}</span>
-          <span>{meditation.era || ''}</span>
-        </div>
-
-        <blockquote className="summary-quote">
-          “{meditation.quote}”
-        </blockquote>
-
-        <div className="summary-footer">
-          <p>{meditation.source}</p>
-          <p className="summary-hint">{expanded ? 'Desliza hacia abajo para cerrar' : 'Desliza hacia arriba'}</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function DetailSection({ title, children }) {
-  return (
-    <section className="detail-section">
-      <h2>{title}</h2>
-      <div>{children}</div>
-    </section>
-  );
-}
-
-function ReferencesList({ references }) {
-  if (!references || references.length === 0) {
-    return null;
-  }
-
-  return (
-    <section className="detail-section">
-      <h2>Referencias</h2>
-      <div className="references-list">
-        {references.map((reference, index) => (
-          <article key={index} className="reference-item">
-            {reference.url ? (
-              <a
-                href={reference.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="reference-title"
-              >
-                {reference.title}
-              </a>
-            ) : (
-              <p className="reference-title">{reference.title}</p>
-            )}
-            {reference.author && <p className="reference-author">por {reference.author}</p>}
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function App() {
-  const meditation = getMeditationForDate(new Date());
+  const [meditation, setMeditation] = useState(() => getMeditationForDate(new Date()));
   const [expanded, setExpanded] = useState(false);
+  const [cardLoaded, setCardLoaded] = useState(false);
   const sheetScrollRef = useRef(null);
   const touchStartYRef = useRef(null);
   const touchStartScrollTopRef = useRef(0);
@@ -98,6 +26,37 @@ function App() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
+  useEffect(() => {
+    requestAnimationFrame(() => setCardLoaded(true));
+  }, []);
+
+  useEffect(() => {
+    const checkAndUpdateMeditation = () => {
+      setMeditation((currentMeditation) => {
+        const today = new Date();
+        const freshMeditation = getMeditationForDate(today);
+        if (currentMeditation.id !== freshMeditation.id) {
+          return freshMeditation;
+        }
+        return currentMeditation;
+      });
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        checkAndUpdateMeditation();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    const intervalId = setInterval(checkAndUpdateMeditation, 5 * 60 * 1000); // 5 minutos
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      clearInterval(intervalId);
+    };
+  }, []);
+
   const openCard = () => setExpanded(true);
   const closeCard = () => setExpanded(false);
 
@@ -108,8 +67,6 @@ function App() {
 
   const handleTouchEnd = (event) => {
     if (touchStartYRef.current === null) {
-      touchStartYRef.current = null;
-      touchStartScrollTopRef.current = 0;
       return;
     }
 
@@ -138,7 +95,7 @@ function App() {
       <div className="background-monogram" aria-hidden="true">M · A</div>
 
       <main className="app-frame">
-        <div className={`sheet ${expanded ? 'expanded' : ''}`}>
+        <div className={`sheet ${expanded ? 'expanded' : ''} ${cardLoaded ? 'loaded' : ''}`}>
           <div
             ref={sheetScrollRef}
             className="sheet-scroll"
@@ -148,6 +105,7 @@ function App() {
             <SummaryCard
               meditation={meditation}
               expanded={expanded}
+              loaded={cardLoaded}
               onOpen={openCard}
             />
 
