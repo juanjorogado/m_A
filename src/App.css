@@ -154,6 +154,28 @@ body {
   outline: none;
 }
 
+/* Layout tweaks: make card use flex so footer stays visible */
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.summary-card-hitbox {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.summary-quote {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.summary-footer {
+  margin-top: auto;
+}
+
 .summary-card-hitbox:focus-visible {
   outline: 2px solid rgba(68, 70, 72, 0.8);
   outline-offset: 4px;
