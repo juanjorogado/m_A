@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-const CACHE_NAME = 'marcus-meditations-v4';
+const CACHE_NAME = 'marcus-meditations-v5';
 
 // Recursos estáticos básicos que queremos pre-cachear durante la instalación
 const STATIC_ASSETS = [

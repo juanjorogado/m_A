@@ -16,7 +16,6 @@ function SummaryCard({ meditation, expanded, loaded, onOpen }) {
         }}
         aria-label={expanded ? undefined : 'Abrir meditacion'}
       >
-        <div className="sheet-drag-handle" aria-hidden="true" />
         <div className="summary-meta">
           <span>{meditation.author || 'Marco Aurelio'}</span>
           <span>{meditation.era || ''}</span>

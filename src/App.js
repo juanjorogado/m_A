@@ -47,7 +47,7 @@ function App() {
 
       const sheetHeight = sheetEl.offsetHeight;
       const contentHeight = contentRef.current.offsetHeight;
-      const safeGap = 40;
+      const safeGap = 0;
 
       // Show contentHeight + safeGap of the sheet
       // translateY = sheetHeight - (contentHeight + safeGap)
@@ -155,7 +155,7 @@ function App() {
       return;
     }
     if (deltaY < -SWIPE_THRESHOLD) openCard();
-  }, [expanded, openCard, closeCard, handleTouchMove]);
+  }, [expanded, openCard, closeCard]);
 
   return (
     <div className={`app-shell ${expanded ? 'expanded' : ''}`}>
