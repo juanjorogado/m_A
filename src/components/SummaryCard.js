@@ -23,7 +23,7 @@ function SummaryCard({ meditation, expanded, loaded, onOpen }) {
         </div>
 
         <blockquote className="summary-quote">
-          "{meditation.quote}"
+          {meditation.quote}
         </blockquote>
 
         <div className="summary-footer">

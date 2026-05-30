@@ -1,13 +1,13 @@
-const CACHE_NAME = 'marcus-meditations-v1';
+/* eslint-disable no-restricted-globals */
+const CACHE_NAME = 'marcus-meditations-v4';
 
 // Recursos estáticos básicos que queremos pre-cachear durante la instalación
 const STATIC_ASSETS = [
-  './',
+  '/',
   './index.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
-  '/'
 ];
 
 // Instalación: Pre-cacheamos los recursos estáticos iniciales
@@ -32,6 +32,7 @@ self.addEventListener('activate', (event) => {
             console.log('Borrando caché antigua:', cacheName);
             return caches.delete(cacheName);
           }
+          return Promise.resolve();
         })
       );
     }).then(() => self.clients.claim())
@@ -59,17 +60,23 @@ self.addEventListener('fetch', (event) => {
           return networkResponse;
         }
 
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
+        // Only cache same-origin requests
+        const url = new URL(event.request.url);
+        if (url.origin === self.location.origin) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
 
         return networkResponse;
       }).catch(() => {
-        // Fallback offline (por ejemplo, si no hay red y se pide la raíz, devolver index.html de la caché)
+        // Fallback offline
         if (event.request.mode === 'navigate') {
           return caches.match('./index.html') || caches.match('/');
         }
+        // Return a basic offline response for other failed requests
+        return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
       });
     })
   );
