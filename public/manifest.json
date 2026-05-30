@@ -1,0 +1,30 @@
+{
+  "short_name": "Meditaciones",
+  "name": "Meditaciones de Marco Aurelio",
+  "description": "Una meditación diaria de Marco Aurelio para cultivar la serenidad estoica. Lee, reflexiona y vive el estoicismo práctico.",
+  "lang": "es",
+  "dir": "ltr",
+  "scope": ".",
+  "id": "/",
+  "start_url": ".",
+  "display": "standalone",
+  "display_override": ["standalone"],
+  "orientation": "portrait",
+  "theme_color": "#1D2530",
+  "background_color": "#1D2530",
+  "categories": ["education", "books", "lifestyle"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
